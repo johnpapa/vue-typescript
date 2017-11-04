@@ -1,10 +1,10 @@
 const express = require('express');
-const security = require('./src/security');
+const security = require('./server/security');
 const bodyParser = require('body-parser');
 
-const env = require('./src/env/' + (process.env.NODE_ENV || 'development'));
-const routes = require('./src/routes');
-const publicweb = process.env.PUBLICWEB || './src/www';
+const env = require('./server/env/' + (process.env.NODE_ENV || 'development'));
+const routes = require('./server/routes');
+const publicweb = process.env.PUBLICWEB || './server/www';
 
 const app = express();
 app.use(bodyParser.json());

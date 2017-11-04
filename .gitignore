@@ -60,7 +60,7 @@ typings/
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # ignore server configuration
-src/server/env/development.js
+env/development.js
 docker-compose.local.yml
 *.azcli
 
