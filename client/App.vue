@@ -170,7 +170,7 @@ div {
   .delete-button {
     flex: 1 auto;
     order: 2;
-    border-radius: 0 7px 7px 0;
+    border-radius: 0 4px 4px 0;
   }
   .hero-text {
     flex: 1 auto;
@@ -187,7 +187,7 @@ div {
     background-color: rgb(0, 120, 215);
     background-color: rgb(134, 183, 221);
     margin: 0em 0em 0em 0em;
-    border-radius: 7px 0 0 7px;
+    border-radius: 4px 0 0 4px;
     max-width: 1.5em;
   }
 }
