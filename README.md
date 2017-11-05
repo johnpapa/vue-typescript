@@ -8,9 +8,10 @@
 # install dependencies
 npm install
 
-# serve on http://localhost:3001
-npm start
-
 # build for production with minification
 npm run build
+
+# serve on http://localhost:8080
+# and run the api on http://localhost:3001
+npm run dev-proxy
 ```
