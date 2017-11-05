@@ -4,7 +4,7 @@
       <div class="editfields">
         <div>
           <label>id: </label>
-          <input v-if="addingHero" v-model="editingHero.id" placeholder="id" />
+          <input v-if="addingHero" type="number" v-model="editingHero.id" placeholder="id" />
           <label v-if="!addingHero" class="value">{{editingHero.id}}</label>
         </div>
         <div>
@@ -29,11 +29,7 @@ import axios from 'axios';
 export default {
   name: 'herodetail',
   props: {
-    // id: { type: Number },
-    // name: { type: String },
-    // saying: { type: String },
-    hero: { type: Object },
-    // addingHero: { type: Boolean }
+    hero: { type: Object }
   },
   data() {
     return {
@@ -68,3 +64,20 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.editarea {
+  float: left;
+  input {
+    margin: 4px;
+    height: 20px;
+    color: rgb(0, 120, 215);
+  }
+  button {
+    margin: 8px;
+  }
+  .editfields {
+    margin-left: 12px;
+  }
+}
+</style>
