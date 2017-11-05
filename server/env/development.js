@@ -1,8 +1,8 @@
 // Replace with your dev values
 
 const serverPort = process.env.SERVER_PORT || 3001;
-
 const sessionSecret = 'your-awesome-secret';
+const publicWeb = './server/www';
 
 const cosmos = {
   name: 'my-heroes-db',
@@ -17,6 +17,7 @@ const twitter = {
 };
 
 module.exports = {
+  publicWeb,
   serverPort,
   sessionSecret,
   cosmos,
