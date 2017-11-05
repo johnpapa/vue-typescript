@@ -5,13 +5,13 @@
     <div>
       <div class="button-group">
         <button @click="getHeroes">Refresh</button>
-        <button @click="enableAddMode" v-if="!addingHero">Add</button>
+        <button @click="enableAddMode" v-if="!addingHero && !selectedHero">Add</button>
       </div>
       <ul class="heroes">
         <li v-for="hero in heroes" :key="hero.id"
           class="hero-container"
           :class="{selected: hero === selectedHero}">
-          <div class="hero-element" @click="onSelect(hero)">
+          <div class="hero-element">
             <div class="badge" >{{hero.id}}</div>
             <div class="hero-text" @click="onSelect(hero)">
               <div class="name">{{hero.name}}</div>
