@@ -11,10 +11,12 @@
         <li v-for="hero in heroes" :key="hero.id"
           class="hero-container"
           :class="{selected: hero === selectedHero}">
-          <div class="badge" @click="onSelect(hero)">{{hero.id}}</div>
           <div class="hero-element" @click="onSelect(hero)">
-            <div class="name">{{hero.name}}</div>
-            <div class="saying">{{hero.saying}}</div>
+            <div class="badge" >{{hero.id}}</div>
+            <div class="hero-text" @click="onSelect(hero)">
+              <div class="name">{{hero.name}}</div>
+              <div class="saying">{{hero.saying}}</div>
+            </div>
           </div>
           <button class="delete-button" @click="deleteHero(hero)">Delete</button>
         </li>
@@ -107,7 +109,6 @@ button {
     padding: 4px;
     position: relative;
     font-size: 12px;
-    width: 50px;
     max-width: 50px;
   }
 }
@@ -155,33 +156,38 @@ div {
     display: flex;
     flex-flow: row wrap;
   }
-
   > * {
     flex: 1 100%;
   }
-
   .hero-element {
+    display: flex;
+    flex-flow: row wrap;
     flex: 18 auto;
-    padding: 0.1em 0.5em;
-    order: 2;
+    order: 1;
+    padding: 0;
+    margin: 0;
   }
   .delete-button {
     flex: 1 auto;
-    order: 3;
-    border-radius: 0 4px 4px 0;
+    order: 2;
+    border-radius: 0 7px 7px 0;
+  }
+  .hero-text {
+    flex: 1 auto;
+    order: 2;
+    padding: 0.2em 0.5em;
   }
   .badge {
     flex: 1 auto;
     order: 1;
     font-size: small;
-    color: white;
+    color: #ffffff;
     padding: 1.2em 1em 0em 1em;
     background-color: #607d8b;
     background-color: rgb(0, 120, 215);
     background-color: rgb(134, 183, 221);
     margin: 0em 0em 0em 0em;
-    border-radius: 4px 0 0 4px;
-    width: 1.5em;
+    border-radius: 7px 0 0 7px;
     max-width: 1.5em;
   }
 }
