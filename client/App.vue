@@ -4,11 +4,14 @@
     <div class="header-bar"></div>
     <div>
       <div class="button-group">
-        <button @click="clear()">Clear</button>
-        <button @click="getHeroes()">Refresh</button>
+        <button @click="getHeroes">Refresh</button>
+        <button @click="enableAddMode">Add</button>
       </div>
       <ul class="heroes">
-        <li v-for="hero in heroes" :key="hero.id">
+        <li v-for="hero in heroes" :key="hero.id"
+          @click="onSelect(hero)"
+          v-bind:class="{selected: hero === selectedHero}">
+          <button class="delete-button" @click="deleteHero(hero)">Delete</button>
           <div class="hero-element">
             <div class="badge">{{hero.id}}</div>
             <div class="name">{{hero.name}}</div>
@@ -16,6 +19,27 @@
           </div>
         </li>
       </ul>
+    <div class="editarea">
+      <div v-if="selectedHero">
+        <div class="editfields">
+          <div>
+            <label>id: </label>
+            <input v-if="addingHero" v-model="selectedHero.id" placeholder="id" />
+            <label v-if="!addingHero" class="value">{{selectedHero.id}}</label>
+          </div>
+          <div>
+            <label>name: </label>
+            <input v-model="selectedHero.name" placeholder="name" />
+          </div>
+          <div>
+            <label>saying: </label>
+            <input v-model="selectedHero.saying" placeholder="saying" />
+          </div>
+        </div>
+        <button @click="cancel">Cancel</button>
+        <button @click="save">Save</button>
+      </div>
+    </div>
     </div>
   </div>
 </template>
@@ -27,6 +51,8 @@ export default {
   name: 'app',
   data() {
     return {
+      addingHero: false,
+      selectedHero: null,
       title: 'Heroes App',
       heroes: this.getHeroes()
     };
@@ -34,10 +60,54 @@ export default {
   methods: {
     clear() {
       this.heroes = [];
+      this.selectedHero = null;
+    },
+    enableAddMode() {
+      this.addingHero = true;
+      this.selectedHero = { id: undefined, name: '', saying: '' };
+    },
+    cancel() {
+      this.addingHero = false;
+      this.selectedHero = null;
+    },
+    onSelect(hero) {
+      this.addingHero = false;
+      this.selectedHero = hero;
+    },
+    save() {
+      if (this.addingHero) {
+        this.addHero();
+        let hero = Object.assign({}, this.selectedHero);
+        this.addingHero = false;
+        this.selectedHero = null;
+        this.heroes.push(hero);
+      } else {
+        this.updateHero();
+        this.addingHero = false;
+        this.selectedHero = null;
+      }
+    },
+    addHero() {
+      let hero = this.selectedHero;
+      return axios.post(`api/hero/`, { hero }); //.then(this.getHeroes);
+    },
+    updateHero() {
+      let hero = this.selectedHero;
+      return axios.put(`api/hero/${hero.id}`, { hero }); //.then(this.getHeroes);
+    },
+    deleteHero(hero) {
+      return axios
+        .delete(`api/hero/${hero.id}`) //.then(this.getHeroes);
+        .then(response => {
+          this.heroes = this.heroes.filter(h => h !== hero);
+          if (this.selectedHero === hero) {
+            this.selectedHero = null;
+          }
+        });
     },
     getHeroes() {
       this.clear();
-      return axios.get('/api/heroes').then(response => (this.heroes = response.data));
+      return axios.get(`/api/heroes`).then(response => (this.heroes = response.data));
     }
   }
 };
@@ -76,7 +146,7 @@ button {
   border-radius: 4px;
   cursor: pointer;
   cursor: hand;
-  min-width: 100px;
+  width: 100px;
   &:hover {
     background-color: #cfd8dc;
   }
@@ -88,6 +158,7 @@ button {
     padding: 4px;
     position: relative;
     font-size: 12px;
+    width: 50px;
   }
 }
 div {
