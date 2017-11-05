@@ -5,12 +5,12 @@
     <div>
       <div class="button-group">
         <button @click="getHeroes">Refresh</button>
-        <button @click="enableAddMode">Add</button>
+        <button @click="enableAddMode" v-if="!addingHero">Add</button>
       </div>
       <ul class="heroes">
         <li v-for="hero in heroes" :key="hero.id"
           @click="onSelect(hero)"
-          v-bind:class="{selected: hero === selectedHero}">
+          :class="{selected: hero === selectedHero}">
           <button class="delete-button" @click="deleteHero(hero)">Delete</button>
           <div class="hero-element">
             <div class="badge">{{hero.id}}</div>
@@ -31,7 +31,7 @@
 
 <script>
 import axios from 'axios';
-import HeroDetail from './HeroDetail.vue';
+import HeroDetail from './components/HeroDetail.vue';
 
 export default {
   name: 'app',
@@ -70,35 +70,30 @@ export default {
     getHeroes() {
       this.heroes = [];
       this.selectedHero = null;
-      return axios.get(`/api/heroes`).then(response => (this.heroes = response.data));
+      return axios
+        .get(`/api/heroes`)
+        .then(response => (this.heroes = response.data));
     }
   }
 };
 </script>
 
 <style lang="scss">
-/* You can add global styles to this file, and also import other style files */
-
-* {
+body,
+input[text],
+button {
+  color: #888;
   font-family: Arial;
+}
+body {
+  margin: 2em;
 }
 h2 {
   color: #444;
   font-weight: lighter;
 }
-body {
-  margin: 2em;
-}
-
 .button-group {
   margin: 0.5em;
-}
-
-body,
-input[text],
-button {
-  color: #888;
-  // font-family: Cambria, Georgia;
 }
 button {
   font-size: 14px;
@@ -108,15 +103,13 @@ button {
   padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
-  cursor: hand;
   width: 100px;
   &:hover {
     background-color: #cfd8dc;
   }
   &.delete-button {
     float: right;
-    background-color: gray !important;
-    background-color: rgb(216, 59, 1) !important;
+    background-color: rgb(216, 59, 1);
     color: white;
     padding: 4px;
     position: relative;
@@ -127,13 +120,10 @@ button {
 div {
   margin: 0.1em;
 }
-
 .selected {
-  background-color: #cfd8dc !important;
   background-color: rgb(0, 120, 215) !important;
   color: white;
 }
-
 .heroes {
   float: left;
   margin: 0 0 2em 0;
@@ -171,7 +161,6 @@ div {
     font-weight: bold;
   }
   .badge {
-    /* display: inline-block; */
     float: left;
     font-size: small;
     color: white;
@@ -189,14 +178,12 @@ div {
     width: 1.2em;
   }
 }
-
 .header-bar {
   background-color: rgb(0, 120, 215);
   height: 4px;
   margin-top: 10px;
   margin-bottom: 10px;
 }
-
 label {
   display: inline-block;
   width: 4em;
@@ -207,7 +194,6 @@ label {
     font-size: 14px;
   }
 }
-
 input {
   height: 2em;
   font-size: 1em;
@@ -217,21 +203,6 @@ input {
     font-weight: normal;
     font-size: 12px;
     letter-spacing: 3px;
-  }
-}
-
-.editarea {
-  float: left;
-  input {
-    margin: 4px;
-    height: 20px;
-    color: rgb(0, 120, 215);
-  }
-  button {
-    margin: 8px;
-  }
-  .editfields {
-    margin-left: 12px;
   }
 }
 </style>
