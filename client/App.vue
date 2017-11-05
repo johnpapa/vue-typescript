@@ -88,10 +88,6 @@ button {
 body {
   margin: 2em;
 }
-h2 {
-  color: #444;
-  font-weight: lighter;
-}
 .button-group {
   margin: 0.5em;
 }
