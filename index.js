@@ -10,7 +10,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(security());
+// app.use(security());
 
 app.use(express.static(publicweb));
 console.log(`serving ${publicweb}`);
