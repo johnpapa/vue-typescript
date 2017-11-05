@@ -19,33 +19,19 @@
           </div>
         </li>
       </ul>
-    <div class="editarea">
-      <div v-if="selectedHero">
-        <div class="editfields">
-          <div>
-            <label>id: </label>
-            <input v-if="addingHero" v-model="selectedHero.id" placeholder="id" />
-            <label v-if="!addingHero" class="value">{{selectedHero.id}}</label>
-          </div>
-          <div>
-            <label>name: </label>
-            <input v-model="selectedHero.name" placeholder="name" />
-          </div>
-          <div>
-            <label>saying: </label>
-            <input v-model="selectedHero.saying" placeholder="saying" />
-          </div>
-        </div>
-        <button @click="cancel">Cancel</button>
-        <button @click="save">Save</button>
-      </div>
     </div>
-    </div>
+    <HeroDetail
+      v-if="selectedHero || addingHero"
+      :hero="selectedHero"
+      @unselect="unselect"
+      @refresh="getHeroes"></HeroDetail>
   </div>
 </template>
 
+
 <script>
 import axios from 'axios';
+import HeroDetail from './HeroDetail.vue';
 
 export default {
   name: 'app',
@@ -57,56 +43,33 @@ export default {
       heroes: this.getHeroes()
     };
   },
+  components: {
+    HeroDetail
+  },
   methods: {
-    clear() {
-      this.heroes = [];
+    unselect() {
+      this.addingHero = false;
       this.selectedHero = null;
     },
     enableAddMode() {
       this.addingHero = true;
-      this.selectedHero = { id: undefined, name: '', saying: '' };
-    },
-    cancel() {
-      this.addingHero = false;
       this.selectedHero = null;
+    },
+    deleteHero(hero) {
+      return axios.delete(`api/hero/${hero.id}`).then(() => {
+        this.heroes = this.heroes.filter(h => h !== hero);
+        if (this.selectedHero === hero) {
+          this.selectedHero = null;
+        }
+      });
     },
     onSelect(hero) {
       this.addingHero = false;
       this.selectedHero = hero;
     },
-    save() {
-      if (this.addingHero) {
-        this.addHero();
-        let hero = Object.assign({}, this.selectedHero);
-        this.addingHero = false;
-        this.selectedHero = null;
-        this.heroes.push(hero);
-      } else {
-        this.updateHero();
-        this.addingHero = false;
-        this.selectedHero = null;
-      }
-    },
-    addHero() {
-      let hero = this.selectedHero;
-      return axios.post(`api/hero/`, { hero }); //.then(this.getHeroes);
-    },
-    updateHero() {
-      let hero = this.selectedHero;
-      return axios.put(`api/hero/${hero.id}`, { hero }); //.then(this.getHeroes);
-    },
-    deleteHero(hero) {
-      return axios
-        .delete(`api/hero/${hero.id}`) //.then(this.getHeroes);
-        .then(response => {
-          this.heroes = this.heroes.filter(h => h !== hero);
-          if (this.selectedHero === hero) {
-            this.selectedHero = null;
-          }
-        });
-    },
     getHeroes() {
-      this.clear();
+      this.heroes = [];
+      this.selectedHero = null;
       return axios.get(`/api/heroes`).then(response => (this.heroes = response.data));
     }
   }
@@ -270,67 +233,5 @@ input {
   .editfields {
     margin-left: 12px;
   }
-}
-
-#toast {
-  // position: absolute;
-  // top: 0;
-  // width: 80%;
-  // margin: 0px 30px;
-  // background-color: #0078d7;
-  // color: white;
-  // padding: 1em;
-  // text-align: center;
-}
-
-.toast-container {
-  /*-webkit-transition-property: opacity, bottom, left, right, width, margin, border-radius;
-  transition-property: opacity, bottom, left, right, width, margin, border-radius;
-  -webkit-transition-duration: 1.0s;
-          transition-duration: 1.0s;
-  -webkit-transition-timing-function: ease;
-          transition-timing-function: ease;*/
-  position: absolute;
-  right: 30px;
-  top: 0;
-  left: 30px;
-  overflow: scroll;
-  background: rgba(0, 0, 0, 0.4);
-  background-color: #0078d7;
-  background-color: rgb(255, 64, 129);
-  z-index: 9999;
-  opacity: 0;
-
-  -webkit-transition: opacity 400ms ease-in;
-  -moz-transition: opacity 400ms ease-in;
-  transition: opacity 400ms ease-in;
-}
-
-.toast-container > * {
-  text-align: center;
-}
-
-.toast-card {
-  width: 100%;
-  z-index: 1;
-  padding: 2px;
-  position: relative;
-  background-color: #f06292;
-  background-color: #0078d7;
-  background-color: rgb(255, 64, 129);
-  text-align: center;
-  color: white;
-  text-transform: uppercase;
-  margin: 16px;
-  font-size: 16px;
-}
-
-.toast-message {
-  margin: 0em 2em 0em 0em;
-}
-
-.logged-in-as {
-  display: inline-block;
-  font-size: 12px;
 }
 </style>
