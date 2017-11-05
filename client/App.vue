@@ -9,14 +9,14 @@
       </div>
       <ul class="heroes">
         <li v-for="hero in heroes" :key="hero.id"
-          @click="onSelect(hero)"
+          class="hero-container"
           :class="{selected: hero === selectedHero}">
-          <button class="delete-button" @click="deleteHero(hero)">Delete</button>
-          <div class="hero-element">
-            <div class="badge">{{hero.id}}</div>
+          <div class="badge" @click="onSelect(hero)">{{hero.id}}</div>
+          <div class="hero-element" @click="onSelect(hero)">
             <div class="name">{{hero.name}}</div>
             <div class="saying">{{hero.saying}}</div>
           </div>
+          <button class="delete-button" @click="deleteHero(hero)">Delete</button>
         </li>
       </ul>
     </div>
@@ -70,9 +70,7 @@ export default {
     getHeroes() {
       this.heroes = [];
       this.selectedHero = null;
-      return axios
-        .get(`/api/heroes`)
-        .then(response => (this.heroes = response.data));
+      return axios.get(`/api/heroes`).then(response => (this.heroes = response.data));
     }
   }
 };
@@ -104,13 +102,13 @@ button {
     background-color: #cfd8dc;
   }
   &.delete-button {
-    float: right;
     background-color: rgb(216, 59, 1);
     color: white;
     padding: 4px;
     position: relative;
     font-size: 12px;
     width: 50px;
+    max-width: 50px;
   }
 }
 div {
@@ -125,24 +123,21 @@ div {
   margin: 0 0 2em 0;
   list-style-type: none;
   padding: 0;
+  width: 20em;
   li {
     cursor: pointer;
     position: relative;
-    left: 0;
-    background-color: #eee;
+    background-color: #f7f7f7;
     margin: 0.5em;
-    padding: 0.5em;
-    height: 3em;
+    height: 3.2em;
     border-radius: 4px;
-    width: 17em;
     &:hover {
       color: #607d8b;
       color: rgb(0, 120, 215);
       background-color: #ddd;
-      left: 0.1em;
+      left: 1px;
     }
     &.selected:hover {
-      /*background-color: #BBD8DC !important;*/
       color: white;
     }
   }
@@ -156,22 +151,38 @@ div {
   .name {
     font-weight: bold;
   }
+  .hero-container {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  > * {
+    flex: 1 100%;
+  }
+
+  .hero-element {
+    flex: 18 auto;
+    padding: 0.1em 0.5em;
+    order: 2;
+  }
+  .delete-button {
+    flex: 1 auto;
+    order: 3;
+    border-radius: 0 4px 4px 0;
+  }
   .badge {
-    float: left;
+    flex: 1 auto;
+    order: 1;
     font-size: small;
     color: white;
-    padding: 0.7em 0.7em 0 0.5em;
+    padding: 1.2em 1em 0em 1em;
     background-color: #607d8b;
     background-color: rgb(0, 120, 215);
     background-color: rgb(134, 183, 221);
-    line-height: 1em;
-    position: relative;
-    left: -1px;
-    top: -4px;
-    height: 3em;
-    margin-right: 0.8em;
+    margin: 0em 0em 0em 0em;
     border-radius: 4px 0 0 4px;
-    width: 1.2em;
+    width: 1.5em;
+    max-width: 1.5em;
   }
 }
 .header-bar {
