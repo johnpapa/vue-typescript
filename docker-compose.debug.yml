@@ -1,8 +1,8 @@
 version: '2.1'
 
 services:
-  nodeapp:
-    image: nodeapp
+  vue-heroes:
+    image: vue-heroes
     build: .
     environment:
       NODE_ENV: development
