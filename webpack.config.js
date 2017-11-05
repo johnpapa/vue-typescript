@@ -48,19 +48,27 @@ module.exports = {
     noInfo: true,
     overlay: true,
     proxy: {
-      '/api': 'http://localhost:3001/api'
-      // '/api': {
-      //   target: 'http://localhost:3001/api',
-      //   secure: false,
-      //   pathRewrite: { '^/api': '' },
-      //   changeOrigin: true
-      // }
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+        secure: false
+      }
     }
   },
   performance: {
     hints: false
   },
   devtool: '#eval-source-map'
+  // proxyTable: {
+  //   // proxy all requests starting with /api to jsonplaceholder
+  //   '/api': {
+  //     target: 'http://jsonplaceholder.typicode.com',
+  //     changeOrigin: true,
+  //     pathRewrite: {
+  //       '^/api': ''
+  //     }
+  //   }
+  // }
 };
 
 if (process.env.NODE_ENV === 'production') {
