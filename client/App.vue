@@ -70,9 +70,11 @@ export default {
       this.$nextTick(() => (this.selectedHero = hero));
     },
     getHeroes() {
-      this.heroes = [];
-      this.selectedHero = null;
-      return axios.get(`/api/heroes`).then(response => (this.heroes = response.data));
+      this.$nextTick(() => {
+        this.heroes = [];
+        this.selectedHero = null;
+        return axios.get(`/api/heroes`).then(response => (this.heroes = response.data));
+      });
     }
   }
 };
