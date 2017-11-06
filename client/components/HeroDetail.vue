@@ -4,16 +4,16 @@
       <div class="editfields">
         <div>
           <label>id: </label>
-          <input v-if="addingHero" type="number" v-model="editingHero.id" placeholder="id" />
+          <input v-if="addingHero" type="number" v-model="editingHero.id" ref="id" placeholder="id" />
           <label v-if="!addingHero" class="value">{{editingHero.id}}</label>
         </div>
         <div>
           <label>name: </label>
-          <input v-model="editingHero.name" placeholder="name" />
+          <input v-model="editingHero.name" ref="name" placeholder="name" />
         </div>
         <div>
           <label>saying: </label>
-          <input v-model="editingHero.saying" placeholder="saying" />
+          <input v-model="editingHero.saying" placeholder="saying" @keyup.enter="save"/>
         </div>
       </div>
       <button @click="clear">Cancel</button>
@@ -37,8 +37,15 @@ export default {
       editingHero: null
     };
   },
-  created: function() {
+  created() {
     this.editingHero = Object.assign({}, this.hero);
+  },
+  mounted() {
+    if (this.addingHero) {
+      this.$refs.id.focus();
+    } else {
+      this.$refs.name.focus();
+    }
   },
   methods: {
     save() {
