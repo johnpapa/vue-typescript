@@ -1,27 +1,85 @@
 <template>
-  <div id="app">
-    <h1>{{ title }}</h1>
-    <div class="header-bar"></div>
-    <HeroList></HeroList>
+  <div>
+    <div class="button-group">
+      <button @click="getHeroes">Refresh</button>
+      <button @click="enableAddMode" v-if="!addingHero && !selectedHero">Add</button>
+    </div>
+    <ul class="heroes">
+      <li v-for="hero in heroes" :key="hero.id"
+        class="hero-container"
+        :class="{selected: hero === selectedHero}">
+        <div class="hero-element">
+          <div class="badge" >{{hero.id}}</div>
+          <div class="hero-text" @click="onSelect(hero)">
+            <div class="name">{{hero.name}}</div>
+            <div class="saying">{{hero.saying}}</div>
+          </div>
+        </div>
+        <button class="delete-button" @click="deleteHero(hero)">Delete</button>
+      </li>
+    </ul>
+    <HeroDetail
+      v-if="selectedHero || addingHero"
+      :hero="selectedHero"
+      @unselect="unselect"
+      @heroChanged="heroChanged"></HeroDetail>
   </div>
 </template>
 
+
 <script>
-import HeroList from './components/HeroList.vue';
+import axios from 'axios';
+import HeroDetail from './HeroDetail.vue';
 
 export default {
   data() {
     return {
-      title: 'Heroes App'
+      addingHero: false,
+      selectedHero: null,
+      heroes: this.getHeroes()
     };
   },
   components: {
-    HeroList
+    HeroDetail
+  },
+  methods: {
+    unselect() {
+      this.addingHero = false;
+      this.selectedHero = null;
+    },
+    enableAddMode() {
+      this.addingHero = true;
+      this.selectedHero = null;
+    },
+    deleteHero(hero) {
+      return axios.delete(`api/hero/${hero.id}`).then(() => {
+        this.heroes = this.heroes.filter(h => h !== hero);
+        if (this.selectedHero === hero) {
+          this.selectedHero = null;
+        }
+      });
+    },
+    onSelect(hero) {
+      this.selectedHero = hero;
+    },
+    heroChanged(arg) {
+      if (arg.mode === 'add') {
+        this.heroes.push(arg.hero);
+      } else {
+        let index = this.heroes.findIndex(h => arg.hero.id === h.id);
+        this.heroes[index] = arg.hero;
+      }
+    },
+    getHeroes() {
+      this.heroes = [];
+      this.selectedHero = null;
+      return axios.get(`/api/heroes`).then(response => (this.heroes = response.data));
+    }
   }
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 body,
 input[text],
 button {

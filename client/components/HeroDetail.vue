@@ -50,7 +50,6 @@ export default {
   methods: {
     addHero() {
       let hero = this.editingHero;
-      // return myservice.postit(hero).then(() => this.emitRefresh('add'));
       return axios.post(`api/hero/`, { hero }).then(() => this.emitRefresh('add'));
     },
     clear() {
@@ -61,8 +60,7 @@ export default {
       return Object.assign({}, this.hero);
     },
     emitRefresh(mode) {
-      // TODO: fix names here
-      this.$emit('refresh', { mode: mode, thing: this.editingHero });
+      this.$emit('heroChanged', { mode: mode, hero: this.editingHero });
       this.clear();
     },
     save() {
