@@ -23,8 +23,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   props: {
     hero: { type: Object }
@@ -50,7 +48,7 @@ export default {
   methods: {
     addHero() {
       let hero = this.editingHero;
-      return axios.post(`api/hero/`, { hero }).then(() => this.emitRefresh('add'));
+      this.emitRefresh('add');
     },
     clear() {
       this.$emit('unselect');
@@ -72,7 +70,7 @@ export default {
     },
     updateHero() {
       let hero = this.editingHero;
-      return axios.put(`api/hero/${hero.id}`, { hero }).then(() => this.emitRefresh('update'));
+      this.emitRefresh('update');
     }
   }
 };

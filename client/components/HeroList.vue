@@ -63,11 +63,15 @@ export default {
       this.selectedHero = hero;
     },
     heroChanged(arg) {
+      const hero = arg.hero;
+      console.log('hero changed', hero);
       if (arg.mode === 'add') {
-        this.heroes.push(arg.hero);
+        axios.post(`api/hero/`, { hero }).then(() => this.heroes.push(hero));
       } else {
-        let index = this.heroes.findIndex(h => arg.hero.id === h.id);
-        this.heroes[index] = arg.hero;
+        axios.put(`api/hero/${hero.id}`, { hero }).then(() => {
+          let index = this.heroes.findIndex(h => hero.id === h.id);
+          this.heroes.splice(index, 1, hero);
+        });
       }
     },
     getHeroes() {
