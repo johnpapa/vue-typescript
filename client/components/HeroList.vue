@@ -80,42 +80,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-body,
-input[text],
-button {
-  color: #888;
-  font-family: Arial;
-}
-body {
-  margin: 2em;
-}
-
 .button-group {
   margin: 0.5em;
 }
-button {
-  font-size: 14px;
-  font-family: Arial;
-  background-color: #eee;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 100px;
-  &:hover {
-    background-color: #cfd8dc;
-  }
-  &.delete-button {
-    background-color: rgb(216, 59, 1);
-    color: white;
-    padding: 4px;
-    position: relative;
-    font-size: 12px;
-    max-width: 50px;
-  }
-}
-div {
-  margin: 0.1em;
+button.delete-button {
+  background-color: rgb(216, 59, 1);
+  color: white;
+  padding: 4px;
+  position: relative;
+  font-size: 12px;
+  max-width: 50px;
 }
 .selected {
   background-color: rgb(0, 120, 215) !important;
@@ -191,33 +165,6 @@ div {
     margin: 0em 0em 0em 0em;
     border-radius: 4px 0 0 4px;
     max-width: 1.5em;
-  }
-}
-.header-bar {
-  background-color: rgb(0, 120, 215);
-  height: 4px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-label {
-  display: inline-block;
-  width: 4em;
-  margin: 0.5em 0;
-  color: #888;
-  &.value {
-    margin-left: 10px;
-    font-size: 14px;
-  }
-}
-input {
-  height: 2em;
-  font-size: 1em;
-  padding-left: 0.4em;
-  &::placeholder {
-    color: lightgray;
-    font-weight: normal;
-    font-size: 12px;
-    letter-spacing: 3px;
   }
 }
 </style>
