@@ -66,8 +66,8 @@ export default {
       });
     },
     onSelect(hero) {
-      this.addingHero = false;
-      this.selectedHero = hero;
+      this.unselect();
+      this.$nextTick(() => (this.selectedHero = hero));
     },
     getHeroes() {
       this.heroes = [];

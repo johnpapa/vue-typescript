@@ -34,8 +34,11 @@ export default {
   data() {
     return {
       addingHero: !this.hero,
-      editingHero: Object.assign({}, this.hero)
+      editingHero: null
     };
+  },
+  created: function() {
+    this.editingHero = Object.assign({}, this.hero);
   },
   methods: {
     save() {
