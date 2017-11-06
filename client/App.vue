@@ -36,7 +36,6 @@ import axios from 'axios';
 import HeroDetail from './components/HeroDetail.vue';
 
 export default {
-  name: 'app',
   data() {
     return {
       addingHero: false,
@@ -68,6 +67,7 @@ export default {
     onSelect(hero) {
       this.selectedHero = hero;
     },
+    // TODO: Rename Sarah
     sarah(arg) {
       if (arg.mode === 'add') {
         this.heroes.push(arg.thing);
@@ -95,6 +95,7 @@ button {
 body {
   margin: 2em;
 }
+
 .button-group {
   margin: 0.5em;
 }

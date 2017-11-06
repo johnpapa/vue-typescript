@@ -59,16 +59,6 @@ module.exports = {
     hints: false
   },
   devtool: '#eval-source-map'
-  // proxyTable: {
-  //   // proxy all requests starting with /api to jsonplaceholder
-  //   '/api': {
-  //     target: 'http://jsonplaceholder.typicode.com',
-  //     changeOrigin: true,
-  //     pathRewrite: {
-  //       '^/api': ''
-  //     }
-  //   }
-  // }
 };
 
 if (process.env.NODE_ENV === 'production') {

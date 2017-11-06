@@ -23,11 +23,9 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import axios from 'axios';
 
 export default {
-  name: 'herodetail',
   props: {
     hero: { type: Object }
   },
@@ -52,6 +50,7 @@ export default {
   methods: {
     addHero() {
       let hero = this.editingHero;
+      // return myservice.postit(hero).then(() => this.emitRefresh('add'));
       return axios.post(`api/hero/`, { hero }).then(() => this.emitRefresh('add'));
     },
     clear() {
@@ -62,6 +61,7 @@ export default {
       return Object.assign({}, this.hero);
     },
     emitRefresh(mode) {
+      // TODO: fix names here
       this.$emit('refresh', { mode: mode, thing: this.editingHero });
       this.clear();
     },
