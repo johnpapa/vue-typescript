@@ -26,7 +26,7 @@
       v-if="selectedHero || addingHero"
       :hero="selectedHero"
       @unselect="unselect"
-      @refresh="getHeroes"></HeroDetail>
+      @refresh="sarah"></HeroDetail>
   </div>
 </template>
 
@@ -66,15 +66,20 @@ export default {
       });
     },
     onSelect(hero) {
-      this.unselect();
-      this.$nextTick(() => (this.selectedHero = hero));
+      this.selectedHero = hero;
+    },
+    sarah(arg) {
+      if (arg.mode === 'add') {
+        this.heroes.push(arg.thing);
+      } else {
+        let index = this.heroes.findIndex(h => arg.thing.id === h.id);
+        this.heroes[index] = arg.thing;
+      }
     },
     getHeroes() {
-      this.$nextTick(() => {
-        this.heroes = [];
-        this.selectedHero = null;
-        return axios.get(`/api/heroes`).then(response => (this.heroes = response.data));
-      });
+      this.heroes = [];
+      this.selectedHero = null;
+      return axios.get(`/api/heroes`).then(response => (this.heroes = response.data));
     }
   }
 };

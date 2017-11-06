@@ -34,20 +34,37 @@ export default {
   data() {
     return {
       addingHero: !this.hero,
-      editingHero: null
+      editingHero: this.cloneIt()
     };
   },
-  created() {
-    this.editingHero = Object.assign({}, this.hero);
+  watch: {
+    hero() {
+      this.editingHero = this.cloneIt();
+    }
   },
   mounted() {
-    if (this.addingHero) {
+    if (this.addingHero && this.editingHero) {
       this.$refs.id.focus();
     } else {
       this.$refs.name.focus();
     }
   },
   methods: {
+    addHero() {
+      let hero = this.editingHero;
+      return axios.post(`api/hero/`, { hero }).then(() => this.emitRefresh('add'));
+    },
+    clear() {
+      this.$emit('unselect');
+      this.editingHero = null;
+    },
+    cloneIt() {
+      return Object.assign({}, this.hero);
+    },
+    emitRefresh(mode) {
+      this.$emit('refresh', { mode: mode, thing: this.editingHero });
+      this.clear();
+    },
     save() {
       if (this.addingHero) {
         this.addHero();
@@ -55,21 +72,9 @@ export default {
         this.updateHero();
       }
     },
-    addHero() {
-      let hero = this.editingHero;
-      return axios.post(`api/hero/`, { hero }).then(this.emitRefresh);
-    },
     updateHero() {
       let hero = this.editingHero;
-      return axios.put(`api/hero/${hero.id}`, { hero }).then(this.emitRefresh);
-    },
-    emitRefresh() {
-      this.$emit('refresh');
-      this.clear();
-    },
-    clear() {
-      this.editingHero = null;
-      this.$emit('unselect');
+      return axios.put(`api/hero/${hero.id}`, { hero }).then(() => this.emitRefresh('update'));
     }
   }
 };
