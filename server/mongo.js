@@ -12,8 +12,12 @@ const dbSettings = {
   port: env.cosmos.port
 };
 
+// Cosmos DB Connection String
 // eslint-disable-next-line max-len
-const mongoUri = `mongodb://${dbSettings.name}:${dbSettings.key}@${dbSettings.name}.documents.azure.com:${dbSettings.port}/?ssl=true`; //&replicaSet=globaldb`;
+// const mongoUri = `mongodb://${dbSettings.name}:${dbSettings.key}@${dbSettings.name}.documents.azure.com:${dbSettings.port}/?ssl=true`; //&replicaSet=globaldb`;
+
+// Local MongoDB Connection String
+const mongoUri = `mongodb://localhost:27017/connect-heroes`;
 
 function connect() {
   mongoose.set('debug', true);
