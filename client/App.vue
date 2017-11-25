@@ -2,23 +2,52 @@
   <div id="app">
     <h1>{{ title }}</h1>
     <div class="header-bar"></div>
-    <HeroList></HeroList>
+    <p>
+      <!-- use router-link component for navigation. -->
+      <!-- specify the link by passing the `to` prop. -->
+      <!-- `<router-link>` will be rendered as an `<a>` tag by default -->
+      <router-link to="/heroes">Go to Heroes</router-link>
+      <router-link to="/villains">Go to Villains</router-link>
+    </p>
+    <!-- route outlet -->
+    <!-- component matched by the route will render here -->
+    <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import Component from 'vue-class-component';
+import { Component } from 'vue-property-decorator';
+import VueRouter, { RouteConfig } from 'vue-router';
+
 import HeroList from './components/HeroList.vue';
+import VillainList from './components/VillainList.vue'
+
+const PageNotFound = { template: '<div>404</div>' };
+
+const viewNames = ['completed', 'active', '*'];
+
+const routes: RouteConfig[] = [
+  { path: '/', redirect: '/heroes' },
+  { path: '/heroes', component: HeroList },
+  { path: '/villains', component: VillainList },
+  { path: '**', component: PageNotFound }
+];
+
+const router = new VueRouter({ routes });
+
+Vue.use(VueRouter);
 
 @Component({
-  components: { HeroList }
+  router: router
+  // mixins: [VueRouter]
 })
 export default class App extends Vue {
+  mixins = [VueRouter];
   title: string;
 
   constructor() {
-    super();
+    super(router);
     this.title = 'My Vue and CosmosDB Heroes App';
   }
 }

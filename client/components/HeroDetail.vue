@@ -25,6 +25,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Emit, Prop, Watch } from 'vue-property-decorator';
+
 import { Hero } from '../hero';
 
 @Component({})
