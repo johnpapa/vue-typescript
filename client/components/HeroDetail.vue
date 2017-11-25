@@ -29,7 +29,7 @@ import { Hero } from '../hero';
 
 @Component({})
 export default class HeroDetail extends Vue {
-  @Prop() hero: Hero;
+  @Prop({default: null}) hero: Hero | null;
   addingHero = !this.hero;
   editingHero: Hero | null;
 
