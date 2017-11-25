@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev-proxy": "concurrently \"npm start\" \"npm run dev\"",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+    "build-dev": "webpack --progress --hide-modules",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "debug": "node --inspect index.js",
-    "start": "node index.js"
+    "debug": "concurrently \"NODE_ENV=development node --inspect index.js\" \"npm run dev\"",
+    "start": "node index.js",
+    "docker-up": "docker-compose up -d --build",
+    "docker-up-debug": "docker-compose -f docker-compose.debug.yml up -d --build"
   },
   "keywords": [],
   "author": "",
@@ -16,21 +18,16 @@
   "dependencies": {
     "axios": "^0.17.0",
     "body-parser": "^1.18.2",
-    "concurrently": "^3.5.0",
     "css-loader": "^0.28.7",
-    "csurf": "^1.9.0",
     "express": "^4.16.2",
-    "express-session": "^1.15.6",
-    "helmet": "^3.9.0",
     "mongoose": "^4.13.0",
-    "passport": "^0.4.0",
-    "passport-twitter": "^1.0.4",
     "vue": "^2.4.4"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
+    "concurrently": "^3.5.0",
     "cross-env": "^5.0.5",
     "file-loader": "^1.1.4",
     "node-sass": "^4.5.3",

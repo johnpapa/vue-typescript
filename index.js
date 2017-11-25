@@ -1,15 +1,13 @@
 const express = require('express');
-const security = require('./server/security');
 const bodyParser = require('body-parser');
 
-const env = require('./server/env/' + (process.env.NODE_ENV || 'development'));
+const envFile = './server/env/' + process.env.NODE_ENV;
+const env = require(envFile);
 const routes = require('./server/routes');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-// app.use(security());
 
 app.use(express.static(env.publicWeb));
 console.log(`serving ${env.publicWeb}`);

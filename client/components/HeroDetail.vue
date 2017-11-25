@@ -24,20 +24,21 @@
 
 <script>
 export default {
-  props: {
-    hero: { type: Object }
-  },
+  props: { hero: { type: Object } },
+
   data() {
     return {
       addingHero: !this.hero,
       editingHero: this.cloneIt()
     };
   },
+
   watch: {
     hero() {
       this.editingHero = this.cloneIt();
     }
   },
+
   mounted() {
     if (this.addingHero && this.editingHero) {
       this.$refs.id.focus();
@@ -47,29 +48,34 @@ export default {
   },
   methods: {
     addHero() {
-      let hero = this.editingHero;
+      const hero = this.editingHero;
       this.emitRefresh('add');
     },
+
     clear() {
       this.$emit('unselect');
       this.editingHero = null;
     },
+
     cloneIt() {
       return Object.assign({}, this.hero);
     },
+
     emitRefresh(mode) {
       this.$emit('heroChanged', { mode: mode, hero: this.editingHero });
       this.clear();
     },
     save() {
+
       if (this.addingHero) {
         this.addHero();
       } else {
         this.updateHero();
       }
     },
+
     updateHero() {
-      let hero = this.editingHero;
+      const hero = this.editingHero;
       this.emitRefresh('update');
     }
   }

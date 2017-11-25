@@ -12,7 +12,7 @@ import HeroList from './components/HeroList.vue';
 export default {
   data() {
     return {
-      title: 'Heroes App'
+      title: 'My Vue and CosmosDB Heroes App'
     };
   },
   components: {
@@ -23,8 +23,9 @@ export default {
 
 <style lang="scss">
 body,
-input[text], button {
-    color: #888;
+input[text],
+button {
+  color: #888;
   font-family: Arial;
 }
 button {
