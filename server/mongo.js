@@ -15,7 +15,7 @@ console.log(`env file contains cosmos settings = ${!!env.cosmos.accountName}`);
 const mongoUri = `mongodb://${env.cosmos.accountName}:${env.cosmos.key}@${
   env.cosmos.accountName
 }.documents.azure.com:${env.cosmos.port}/${env.cosmos.databaseName}?ssl=true`;
-//&replicaSet=globaldb`;
+// &replicaSet=globaldb`;
 
 // Local MongoDB Connection String
 // const mongoUri = `mongodb://localhost:27017/connect-heroes`;

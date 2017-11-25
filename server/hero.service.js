@@ -8,7 +8,10 @@ function getHeroes(req, res) {
   docquery
     .exec()
     .then(heroes => res.status(200).json(heroes))
-    .catch(error => res.status(500).send(error));
+    .catch(error => {
+      res.status(500).send(error);
+      return;
+    });
 }
 
 function postHero(req, res) {
@@ -26,22 +29,23 @@ function postHero(req, res) {
 }
 
 function putHero(req, res) {
-  const updatedHero = {
+  const originalHero = {
     id: parseInt(req.params.id, 10),
     name: req.body.hero.name,
     saying: req.body.hero.saying
   };
+  Hero.findOne({ id: originalHero.id }, (error, hero) => {
+    if (checkServerError(res, error)) return;
+    if (!checkFound(res, hero)) return;
 
-  Hero.findOneAndUpdate(
-    { id: updatedHero.id },
-    { $set: updatedHero },
-    { upsert: true, new: true },
-    (error, doc) => {
+    hero.name = originalHero.name;
+    hero.saying = originalHero.saying;
+    hero.save(error => {
       if (checkServerError(res, error)) return;
-      res.status(200).json(doc);
+      res.status(200).json(hero);
       console.log('Hero updated successfully!');
-    }
-  );
+    });
+  });
 }
 
 function deleteHero(req, res) {

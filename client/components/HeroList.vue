@@ -4,97 +4,87 @@
       <button @click="getHeroes">Refresh</button>
       <button @click="enableAddMode" v-if="!addingHero && !selectedHero">Add</button>
     </div>
-    <ul class="heroes" v-if="heroes && heroes.length">
-      <li v-for="hero in heroes" :key="hero.id"
-        class="hero-container"
-        :class="{selected: hero === selectedHero}">
-        <div class="hero-element">
-          <div class="badge" >{{hero.id}}</div>
-          <div class="hero-text" @click="onSelect(hero)">
-            <div class="name">{{hero.name}}</div>
-            <div class="saying">{{hero.saying}}</div>
+    <transition name="fade">
+      <ul class="heroes" v-if="heroes && heroes.length">
+        <li v-for="hero in heroes" :key="hero.id"
+          class="hero-container"
+          :class="{selected: hero === selectedHero}">
+          <div class="hero-element">
+            <div class="badge" >{{hero.id}}</div>
+            <div class="hero-text" @click="onSelect(hero)">
+              <div class="name">{{hero.name}}</div>
+              <div class="saying">{{hero.saying}}</div>
+            </div>
           </div>
-        </div>
-        <button class="delete-button" @click="deleteHero(hero)">Delete</button>
-      </li>
-    </ul>
+          <button class="delete-button" @click="deleteHero(hero)">Delete</button>
+        </li>
+      </ul>
+    </transition>
+    <transition name="fade">
     <HeroDetail
       v-if="selectedHero || addingHero"
       :hero="selectedHero"
       @unselect="unselect"
-      @heroChanged="save">
-    </HeroDetail>
+      @heroChanged="heroChanged"></HeroDetail>
+    </transition>
   </div>
 </template>
 
-<script>
-import heroService from '../hero.service.js';
-import HeroDetail from './HeroDetail.vue';
+<script lang="ts">
+import Vue from 'vue';
+import { Component, Prop, Watch } from 'vue-property-decorator';
 
-export default {
-  data() {
-    return {
-      addingHero: false,
-      selectedHero: null,
-      heroes: []
-    };
-  },
-  components: {
-    HeroDetail
-  },
+import HeroDetail from './HeroDetail.vue';
+import { heroService } from '../hero.service';
+import { Hero } from '../hero';
+
+@Component({
+  components: { HeroDetail }
+})
+export default class HeroList extends Vue {
+  addingHero = false;
+  selectedHero: Hero | null = null;
+  heroes: Hero[] = [];
+
   created() {
     this.getHeroes();
-  },
-  methods: {
-    clear() {
-      this.addingHero = false;
-      this.selectedHero = null;
-    },
-
-    deleteHero(hero) {
-      return heroService.deleteHero(hero).then(() => {
-        this.heroes = this.heroes.filter(h => h !== hero);
-        if (this.selectedHero === hero) {
-          this.selectedHero = null;
-          this.clear();
-        }
-      });
-    },
-
-    enableAddMode() {
-      this.addingHero = true;
-      this.selectedHero = null;
-    },
-
-    getHeroes() {
-      this.heroes = [];
-      this.clear();
-      return heroService.getHeroes().then(response => (this.heroes = response.data));
-    },
-
-    onSelect(hero) {
-      this.selectedHero = hero;
-    },
-
-    save(arg) {
-      const hero = arg.hero;
-      console.log('hero changed', hero);
-      if (arg.mode === 'add') {
-        heroService.addHero(hero).then(() => this.heroes.push(hero));
-      } else {
-        heroService.updateHero(hero).then(() => {
-          const index = this.heroes.findIndex(h => hero.id === h.id);
-          this.heroes.splice(index, 1, hero);
-        });
+  }
+  deleteHero(hero: Hero) {
+    return heroService.deleteHero(hero).then(() => {
+      this.heroes = this.heroes.filter(h => h !== hero);
+      if (this.selectedHero === hero) {
+        this.selectedHero = null;
       }
-    },
-
-    unselect() {
-      this.addingHero = false;
-      this.selectedHero = null;
+    });
+  }
+  enableAddMode() {
+    this.addingHero = true;
+    this.selectedHero = null;
+  }
+  getHeroes() {
+    this.heroes = [];
+    this.selectedHero = null;
+    return heroService.getHeroes().then(response => (this.heroes = response.data));
+  }
+  heroChanged(mode: string, hero: Hero) {
+    console.log('hero changed', hero);
+    if (mode === 'add') {
+      heroService.addHero(hero).then(() => this.heroes.push(hero));
+    } else {
+      heroService.updateHero(hero).then(() => {
+        let index = this.heroes.findIndex(h => hero.id === h.id);
+        this.heroes.splice(index, 1, hero);
+      });
     }
   }
-};
+  onSelect(hero: Hero) {
+    this.selectedHero = hero;
+  }
+  unselect() {
+    this.addingHero = false;
+    this.selectedHero = null;
+  }
+}
 </script>
 
 <style lang="scss" scoped>
