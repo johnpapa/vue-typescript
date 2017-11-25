@@ -6,19 +6,22 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
 import HeroList from './components/HeroList.vue';
 
-export default {
-  data() {
-    return {
-      title: 'My Vue and CosmosDB Heroes App'
-    };
-  },
-  components: {
-    HeroList
+@Component({
+  components: { HeroList }
+})
+export default class App extends Vue {
+  title: string;
+
+  constructor() {
+    super();
+    this.title = 'My Vue and CosmosDB Heroes App';
   }
-};
+}
 </script>
 
 <style lang="scss">
@@ -74,5 +77,14 @@ input {
     font-size: 12px;
     letter-spacing: 3px;
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

@@ -27,6 +27,23 @@ cd vue-heroes
 npm install
 ```
 
+### Database settings
+
+* Configure Cosmos DB server settings
+
+    Rename the `example-environment.js` file to `environment.js` in the `server/env/` folder and update it with your Cosmos DB settings. Replace the account, database name, key, and port with your specific configuration.
+
+    ```javascript
+    // server/env/environment.js
+
+    module.exports = {
+      accountName: 'your-cosmosdb-account-name-goes-here',
+      databaseName: 'your-cosmosdb-database-name-goes-here',
+      key: 'your-key-goes-here',
+      port: 10255
+    };
+    ```
+
 ### Quickstart
 
 This will build the app and run the dev server for Vue and WebPack. The Node express server will launch and WebPack will proxy the calls from the browser to the API in express. It will also and prepare it for local debugging.
