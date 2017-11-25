@@ -30,9 +30,9 @@ import { Hero } from '../hero';
 
 @Component({})
 export default class HeroDetail extends Vue {
-  @Prop({default: null}) hero: Hero;
+  @Prop({default: null}) hero: Hero | null;
   addingHero = !this.hero;
-  editingHero: Hero | null;
+  editingHero: Hero | null = null;
 
   @Watch('hero') onHeroChanged(value: string, oldValue: string) {
     this.editingHero = this.cloneIt();
