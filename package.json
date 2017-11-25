@@ -22,7 +22,8 @@
     "mongoose": "^4.13.0",
     "vue": "^2.3.4",
     "vue-class-component": "^6.1.0",
-    "vue-property-decorator": "^6.0.0"
+    "vue-property-decorator": "^6.0.0",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

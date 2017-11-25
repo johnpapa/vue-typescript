@@ -44,7 +44,7 @@ import { Hero } from '../hero';
 export default class HeroList extends Vue {
   addingHero = false;
   selectedHero: Hero | null = null;
-  heroes: Hero[] = [];
+  heroes: Hero[] = <Hero[]>[];
 
   created() {
     this.getHeroes();
@@ -85,7 +85,7 @@ export default class HeroList extends Vue {
   onSelect(hero: Hero) {
     this.selectedHero = hero;
   }
-  
+
   unselect() {
     this.addingHero = false;
     this.selectedHero = null;

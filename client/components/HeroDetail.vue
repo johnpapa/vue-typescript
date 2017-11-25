@@ -25,11 +25,12 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Emit, Prop, Watch } from 'vue-property-decorator';
+
 import { Hero } from '../hero';
 
 @Component({})
 export default class HeroDetail extends Vue {
-  @Prop() hero: Hero;
+  @Prop({default: null}) hero: Hero;
   addingHero = !this.hero;
   editingHero: Hero | null;
 
