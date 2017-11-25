@@ -85,7 +85,7 @@ export default class HeroList extends Vue {
   onSelect(hero: Hero) {
     this.selectedHero = hero;
   }
-  
+
   unselect() {
     this.addingHero = false;
     this.selectedHero = null;
