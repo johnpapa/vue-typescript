@@ -36,17 +36,23 @@ export default {
   watch: {
     hero() {
       this.editingHero = this.cloneIt();
+      this.setFocus();
     }
   },
 
   mounted() {
-    if (this.addingHero && this.editingHero) {
-      this.$refs.id.focus();
-    } else {
-      this.$refs.name.focus();
-    }
+    this.setFocus();
   },
+
   methods: {
+    setFocus() {
+      if (this.addingHero && this.editingHero) {
+        this.$refs.id.focus();
+      } else {
+        this.$refs.name.focus();
+      }
+    },
+
     addHero() {
       const hero = this.editingHero;
       this.emitRefresh('add');
@@ -65,6 +71,7 @@ export default {
       this.$emit('heroChanged', { mode: mode, hero: this.editingHero });
       this.clear();
     },
+    
     save() {
 
       if (this.addingHero) {

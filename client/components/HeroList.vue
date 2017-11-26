@@ -39,12 +39,15 @@ export default {
       heroes: []
     };
   },
+
   components: {
     HeroDetail
   },
+
   created() {
     this.getHeroes();
   },
+
   methods: {
     clear() {
       this.addingHero = false;
