@@ -19,14 +19,11 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import VueRouter, { RouteConfig } from 'vue-router';
-
 import HeroList from './components/HeroList.vue';
 import VillainList from './components/VillainList.vue'
 
 const PageNotFound = { template: '<div>404</div>' };
-
 const viewNames = ['completed', 'active', '*'];
-
 const routes: RouteConfig[] = [
   { path: '/', redirect: '/heroes' },
   { path: '/heroes', component: HeroList },
@@ -35,13 +32,9 @@ const routes: RouteConfig[] = [
 ];
 
 const router = new VueRouter({ routes });
-
 Vue.use(VueRouter);
 
-@Component({
-  router: router
-  // mixins: [VueRouter]
-})
+@Component({ router: router })
 export default class App extends Vue {
   mixins = [VueRouter];
   title: string;
