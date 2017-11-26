@@ -35,6 +35,7 @@ export default class HeroDetail extends Vue {
 
   @Watch('hero') onHeroChanged(value: string, oldValue: string) {
     this.editingHero = this.cloneIt();
+    this.setFocus();
   }
 
   $refs: {
@@ -64,6 +65,10 @@ export default class HeroDetail extends Vue {
   }
 
   mounted() {
+    this.setFocus();
+  }
+
+  setFocus() {
     if (this.addingHero && this.editingHero) {
       this.$refs.id.focus();
     } else {
