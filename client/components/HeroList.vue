@@ -71,7 +71,6 @@ export default class HeroList extends Vue {
   }
 
   heroChanged(mode: string, hero: Hero) {
-    console.log('hero changed', hero);
     if (mode === 'add') {
       heroService.addHero(hero).then(() => this.heroes.push(hero));
     } else {
