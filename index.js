@@ -1,19 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
-const envFile = './server/env/' + process.env.NODE_ENV;
-const env = require(envFile);
 const routes = require('./server/routes');
 
+const publicWeb = process.env.PUBLICWEB;
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(express.static(env.publicWeb));
-console.log(`serving ${env.publicWeb}`);
+app.use(express.static(publicWeb));
+console.log(`serving ${publicWeb}`);
 app.use('/api', routes);
 app.get('*', (req, res) => {
-  res.sendFile(`index.html`, { root: env.publicWeb });
+  res.sendFile(`index.html`, { root: publicWeb });
 });
 
-app.listen(env.serverPort, () => console.log(`API running on http://localhost:${env.serverPort}`));
+const port = process.env.SERVER_PORT;
+app.listen(port, () => console.log(`API running on http://localhost:${port}`));
