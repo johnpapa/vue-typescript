@@ -4,8 +4,8 @@ services:
   vue-heroes:
     image: vue-heroes
     build: .
-    environment:
-      NODE_ENV: development
+    env_file:
+      - .env
     ports:
       - 3001:3001
       - 9229:9229

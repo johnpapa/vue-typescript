@@ -31,17 +31,15 @@ npm install
 
 * Configure Cosmos DB server settings
 
-    Rename the `example.js` file to `development.js` in the `server/env/` folder and update it with your Cosmos DB settings. Replace the accountName, databaseName, key, and port with your specific configuration.
+    Rename the `.env.example.js` file to `.env` in the root folder and update it with your Cosmos DB settings. Replace the accountName, databaseName, key, and port with your specific configuration.
 
     ```javascript
-    // server/env/development.js
-
-    module.exports = {
-      accountName: 'your-cosmosdb-account-name-goes-here',
-      databaseName: 'your-cosmosdb-database-name-goes-here',
-      key: 'your-key-goes-here',
-      port: 10255
-    };
+    SERVER_PORT=3001
+    PUBLICWEB=./server/www
+    COSMOSDB_ACCOUNT=your_cosmos_account
+    COSMOSDB_DB=your_cosmos_db
+    COSMOSDB_KEY=your_cosmos_key
+    COSMOSDB_PORT=10255
     ```
 
 ### Quickstart
